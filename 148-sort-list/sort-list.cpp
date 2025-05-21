@@ -15,7 +15,7 @@ public:
     if(head==NULL||head->next==NULL)
     return head;
     ListNode* slow=head;
-    ListNode* fast=head->next;
+    ListNode* fast=head;
     while(fast->next!=NULL && fast->next->next!=NULL)
     {
         fast=fast->next->next;
@@ -56,9 +56,6 @@ public:
         ListNode* left=head;
         left=sortList(left);
         right=sortList(right);
-
-        return mergetwosortedlist(left,right);
-
-        
+        return mergetwosortedlist(left,right);  
     }
 };
