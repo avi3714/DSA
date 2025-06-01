@@ -21,51 +21,33 @@ public:
         q.push(root);
         while(!q.empty())
         {
-            vector<int>ans;
-            if(count%2==0)
-            {
+            
             int r=q.size();
+            vector<int>ans(r,-1);
             for(int i=0;i<r;i++)
-            {
+              {
                 TreeNode* node=q.front();
-                ans.push_back(node->val);
                 q.pop();
+              if(count%2==0)
+                ans[i]=(node->val);
+                else
+                ans[r-1-i]=node->val;
                 if(node->left)
                 {
                      q.push(node->left);
-                st.push(node->left->val);
+                
                 }
                 if(node->right)
                 {
                  q.push(node->right);
-                st.push(node->right->val);
+                
                 }
 
             }
             count++;
-            
+            answer.push_back(ans);
             }
-            else
-            {
-                while(!st.empty())
-                {
-                    int ri=st.top();
-                    st.pop();
-                    ans.push_back(ri);
-                    TreeNode* xp=q.front();
-                    q.pop();
-                    if(xp->left)
-                    q.push(xp->left);
-                    if(xp->right)
-                    q.push(xp->right);
-                }
-                count++;
-            }
-                answer.push_back(ans);
-            
-
-
-        }
+        
         return answer;
         
     }
