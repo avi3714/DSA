@@ -11,16 +11,29 @@
  */
 class Solution {
 public:
-  int finddepth(TreeNode* node)
-  {
-    if(node==NULL)
-    return 0;
-    
-    return max(1+finddepth(node->left),(1+finddepth(node->right)));
-    
-  }
+  
     int maxDepth(TreeNode* root) {
-     return finddepth(root);
+        if(root==NULL)
+        return 0;
+     queue<TreeNode*>q;
+     q.push(root);
+     int height=0;
+     while(!q.empty())
+     {
+        int r=q.size();
+        for(int i=0;i<r;i++)
+        {
+        TreeNode* frontier=q.front();
+        q.pop();
+        if(frontier->left)
+        q.push(frontier->left);
+        if(frontier->right)
+        q.push(frontier->right);
+        } 
+              
+        height++;
+     }
+     return height;
         
     }
 };
