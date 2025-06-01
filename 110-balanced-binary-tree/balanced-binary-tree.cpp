@@ -16,23 +16,28 @@ int height(TreeNode* node)
     if(node==NULL)
     return 0;
     else 
-    return 1+max(height(node->left),height(node->right));
-}
-
-bool  checkhight(TreeNode* node)
-{
-    if(node==NULL)
-    return true;
-    if(abs(height(node->left)-height(node->right))<=1&&checkhight(node->left)&&checkhight(node->right))
-    return true;
-    else 
-    return false;
+    {
+        int lefty=height(node->left);
+        int righty=height(node->right);
+        if(lefty==-1||righty==-1)
+        return -1;
+        else if(abs(lefty-righty)>1)
+        return -1;
+        else 
+        return 1+max(lefty,righty);
+    }
+    
 }
     bool isBalanced(TreeNode* root) 
     {
         if(root==NULL)
         return true;
-        return checkhight(root);
+        int re=height(root);
+        if(re==-1)
+        return false;
+        else 
+        return true;
+        //return (re==-1);
         
     }
 };
