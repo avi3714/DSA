@@ -16,7 +16,7 @@ public:
         if (root == NULL)
             return ans;
 
-        multiset<pair<int, pair<int, int>>> st; // {xaxis, {level, val}}
+        map<int,map<int,multiset<int>>> st; // {xaxis, {level, val}}
         queue<pair<TreeNode*, pair<int, int>>> q; // {node, {xaxis, level}}
 
         q.push({root, {0, 0}});
@@ -26,8 +26,7 @@ public:
             int xaxis = q.front().second.first;
             int level = q.front().second.second;
             q.pop();
-
-            st.insert({xaxis, {level, node->val}});
+            st[xaxis][level].insert(node->val);
 
             if (node->left)
                 q.push({node->left, {xaxis - 1, level + 1}});
@@ -35,22 +34,19 @@ public:
                 q.push({node->right, {xaxis + 1, level + 1}});
         }
 
-        // Determine min and max x-axis
-        int minX = INT_MAX, maxX = INT_MIN;
-        for (auto& it : st) {
-            minX = min(minX, it.first);
-            maxX = max(maxX, it.first);
+       for(auto it:st)
+       {
+        vector<int>col;
+        for(auto it2:it.second)
+        {
+            col.insert(col.end(),it2.second.begin(),it2.second.end());
         }
+        ans.push_back(col);
+       }
 
-        int totalCols = maxX - minX + 1;
-        ans.resize(totalCols); // Resize answer vector to hold all verticals
-
-        for (auto& it : st) {
-            int x = it.first;
-            int val = it.second.second;
-            ans[x - minX].push_back(val); // shift x to 0-based index
-        }
-
+      
         return ans;
-    }
+        }
+
+    
 };
