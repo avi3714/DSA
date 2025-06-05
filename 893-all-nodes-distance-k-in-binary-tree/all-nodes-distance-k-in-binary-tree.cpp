@@ -38,11 +38,11 @@ void findthenodeatdistancek(TreeNode* target,int k,unordered_map<TreeNode*,int>&
     if(k==0){
     ans.push_back(target->val);
     return;}
-    if(target->left && mpp.find(target->left)==mpp.end())
+    if(target->left && mpp.find(target->left)==mpp.end()&&k>=0)
     findthenodeatdistancek(target->left,k-1,mpp,parent,ans);
-    if(target->right && mpp.find(target->right)==mpp.end())
+    if(target->right && mpp.find(target->right)==mpp.end()&&k>=0)
     findthenodeatdistancek(target->right,k-1,mpp,parent,ans);
-    if(parent[target]!=NULL && mpp.find(parent[target])==mpp.end())
+    if(parent[target]!=NULL && mpp.find(parent[target])==mpp.end()&&k>=0)
     findthenodeatdistancek(parent[target],k-1,mpp,parent,ans);
 
 }
