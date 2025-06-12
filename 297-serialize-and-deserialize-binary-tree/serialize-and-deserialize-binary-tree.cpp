@@ -12,30 +12,35 @@ public:
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-    if (root == NULL) return "#,";  // Correctly encode null nodes
-    return to_string(root->val) + "," + serialize(root->left) + serialize(root->right);
-}
-
-   TreeNode* buildTree(stringstream& s) {
-    string str;
-    if (!getline(s, str, ',')) return nullptr;
-
-    if (str.empty() || str == "#") return nullptr;
-
-    TreeNode* node = new TreeNode(stoi(str));
-    node->left = buildTree(s);
-    node->right = buildTree(s);
-    return node;
-}
-
+        string s;
+        if(root==NULL)
+        return "#,";
+        else{
+        s=to_string(root->val)+",";
+        return s+serialize(root->left)+serialize(root->right);}
+        
+    }
+    TreeNode* buildTree(stringstream &s)
+    {
+        string str;
+        getline(s,str,',');
+        if(str=="#")
+        return NULL;
+        else
+        {
+            TreeNode* node=new TreeNode(stoi(str));
+            node->left = buildTree(s);
+            node->right= buildTree(s);
+            return node;
+        }
+    }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-       stringstream s(data);
-       return buildTree(s);
+        stringstream s(data);
+        return buildTree(s); 
+        
     }
-  
-    
 };
 
 // Your Codec object will be instantiated and called as such:
