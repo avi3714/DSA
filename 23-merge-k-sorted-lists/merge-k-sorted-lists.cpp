@@ -12,41 +12,41 @@ class Solution {
 public:
 class compare{
 public:
-bool operator()(ListNode* a,ListNode* b)
+bool operator()(ListNode* a,ListNode*b)
 {
     return a->val > b->val;
 }
 };
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        priority_queue<ListNode*,vector<ListNode*>,compare>pq;
-        for(auto it: lists)
+    priority_queue<ListNode*,vector<ListNode*>,compare>q;
+    ListNode* head=NULL;
+    ListNode* tail=NULL;
+    int n=lists.size();
+    for(int i=0;i<n;i++)
+    {
+        if(lists[i])
+        q.push(lists[i]);
+    }
+    while(!q.empty())
+    {
+        ListNode* front =q.top();
+        q.pop();
+        if(head==NULL)
         {
-            if(it)
-            pq.push(it);
+            head=front;
+            tail=front;
         }
-        ListNode* head=NULL;
-        ListNode* tail=NULL;
-        while(!pq.empty())
+        else
         {
-            ListNode* front=pq.top();
-            pq.pop();
-            if(head==NULL)
-            {
-                head=front;
-                tail=front;
-            }
-            else
-            {
-                tail->next=front;
-                tail=front;
-            }
-            if(front->next)
-            {
-                pq.push(front->next);
-            }
-
+            tail->next=front;
+            tail=tail->next;
         }
-        return head;
+        if(front->next)
+        {
+            q.push(front->next);
+        }
+    }
+    return head;
 
         
     }
