@@ -33,28 +33,27 @@ class Solution {
   {
       if(node==NULL)
       return true;
-      
-      
-      
-      
        if(!node->left && !node->right)
       return true;
-      else if(!node->right )
+      else if(node->left && node->right)
       {
-           if(node->left->data  <=  node->data )
-          return ismaxheap(node->left);
-          else
-          return false;
-      }
-      else if(!node->left && node->right)
-      return false;
-      else{
+          
           if(node->left->data<=node->data && node->right->data <= node->data)
           return ismaxheap(node->left)&&ismaxheap(node->right);
           else
           return false;
           
+      
       }
+      else if(node->left )
+      {
+           if(node->left->data  <=  node->data )
+          return true;
+          else
+          return false;
+      }
+      else
+      return false;
       
   }
     bool isHeap(Node* tree) {
