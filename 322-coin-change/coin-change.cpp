@@ -1,43 +1,32 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(),coins.end());
-        vector<bool>visited(amount+1,false);
-        queue<pair<int,int>>q;
-        for(auto it: coins)
-        {
-            q.push({it,1});
-            if(it<=amount)
-            visited[it]=true;
-
-        }
+        int n=coins.size();
+        vector<int>dp(amount+1,INT_MAX);
         if(amount==0)
         return 0;
-        int ans=-1;
-
-        while(!q.empty())
+        for(int i=0;i<n;i++)
         {
-            pair<int,int>r=q.front();
-            q.pop();
-            if(r.first==amount)
+          if(coins[i]<=amount)
+          dp[coins[i]]=1;
+        }
+        for(int i=1;i<=amount;i++)
+        {
+            if(dp[i]==INT_MAX)
+            continue;
+            for(int j=0;j<n;j++)
             {
-                ans=r.second;
-                break;
-            }
-            //return r.second;          
-           // return -1;
-            else
-            {
-                for(int i=0;i<coins.size();i++)
-                {
-                    long long qnty=1LL*(r.first)+1LL*coins[i];
-                    if(qnty<=amount && visited[r.first+coins[i]]==false){
-                    q.push({r.first+coins[i],r.second+1});
-                    visited[r.first+coins[i]]=true;}
-                }
+                long  amt=coins[j];
+                amt+=i;
+                long y=amount;
+                if(amt<=y)
+                dp[i+coins[j]]=min(dp[i+coins[j]],1+dp[i]);
+
             }
         }
-        return ans;
+        if(dp[amount]==INT_MAX)
+        return -1;
+        return dp[amount];
         
     }
 };
