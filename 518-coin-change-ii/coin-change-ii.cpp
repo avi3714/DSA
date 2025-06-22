@@ -16,24 +16,26 @@ int f(int index,int target,vector<int>&coins,vector<vector<int>>&dp)
 }
     int change(int amount, vector<int>& coins) {
         int n=coins.size();
-        vector<vector<long >>dp(n,vector<long>(amount+1,0));
+        vector<long >prev(amount+1,0),curr(amount+1,0);
         for(int target=0;target<=amount;target++)
         {
-            dp[0][target]=((target%coins[0])==0);
+            prev[target]=((target%coins[0])==0);
         }
+        //curr=prev;
         for(int index=1;index<n;index++)
         {
             for(int target=0;target<=amount;target++)
             {
-                int nottake=dp[index-1][target];
+                int nottake=prev[target];
                 int take=0;
                 if(coins[index]<=target)
-                take=dp[index][target-coins[index]];
-                dp[index][target]=take;
-                dp[index][target]+=nottake;
+                take=curr[target-coins[index]];
+                curr[target]=take;
+                curr[target]=curr[target]+nottake;
             }
+            prev=curr;
         }
-        int ans=(int)dp[n-1][amount];
+        int ans=(int)prev[amount];
         return ans;
         
     }
