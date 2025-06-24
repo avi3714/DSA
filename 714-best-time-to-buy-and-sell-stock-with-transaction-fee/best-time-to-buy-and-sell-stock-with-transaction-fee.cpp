@@ -23,8 +23,20 @@ int f(int index,int buy,vector<int>&prices,int fee,vector<vector<int>>&dp)
 }
     int maxProfit(vector<int>& prices, int fee) {
         int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
-     int fg=f(0,0,prices,fee,dp);
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
+        for(int index=n-1;index>=0;index--)
+        {
+            int a=-prices[index]+dp[index+1][1];
+            int b=dp[index+1][0];
+              dp[index][0]= max(a,b);
+
+            int c=prices[index]-fee+dp[index+1][0];
+            int d=dp[index+1][1];
+             dp[index][1]= max(c,d);
+
+
+        }
+     int fg=dp[0][0];
      return fg;   
     }
 };
