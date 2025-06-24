@@ -10,7 +10,8 @@
  * };
  */
 class Solution {
-public:
+public: 
+
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         TreeNode* newnode=new TreeNode(val);
         if(root==NULL)
