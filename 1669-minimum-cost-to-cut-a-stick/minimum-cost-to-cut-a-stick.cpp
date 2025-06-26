@@ -19,8 +19,22 @@ int f(int start,int end,vector<int>&cuts,vector<vector<int>>&dp)
         cuts.push_back(n);
         sort(cuts.begin(),cuts.end());
         int cutsize=cuts.size();
-        vector<vector<int>>dp(cutsize,vector<int>(cutsize,-1));
-        return f(0,cutsize-1,cuts,dp);
+        vector<vector<int>>dp(cutsize,vector<int>(cutsize,0));
+        //start is from 0 to cutsize-1
+        for(int start=cutsize-1;start>=0;start--)
+        { 
+            for(int end=start+2;end<cutsize;end++)
+            {    int mini=INT_MAX;
+                 for(int i=start+1;i<end;i++)
+                     {
+                       int ans=dp[start][i]+dp[i][end]+cuts[end]-cuts[start];
+                       mini=min(mini,ans);
+                     }
+            if(mini!=INT_MAX)
+            dp[start][end]=mini;
+            }
+        }
+        return dp[0][cutsize-1];
         
     }
 };
