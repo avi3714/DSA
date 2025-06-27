@@ -30,9 +30,20 @@ int f(int i,int n,string &s,vector<int>&dp,vector<vector<int>>&dp2)
 }
     int minCut(string s) {
         int n=s.length();
-        vector<int>dp(n,-1);
+        vector<int>dp(n+1,0);
         vector<vector<int>>dp2(n,vector<int>(n,-1));
-        return f(0,n,s,dp,dp2)-1;
+        for(int i=n-1;i>=0;i--)
+        {
+             int mini=INT_MAX;
+            for(int ind=i;ind<n;ind++)
+            {
+                if(isPalindrome(i,ind,s,dp2)){
+               int ans=1+dp[ind+1];
+               mini=min(mini,ans);}         
+            }
+            dp[i]=mini;
+        }
+        return dp[0] -1;
         
     }
 };
