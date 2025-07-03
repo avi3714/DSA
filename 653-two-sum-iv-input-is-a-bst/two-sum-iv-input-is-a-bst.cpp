@@ -11,44 +11,75 @@
  */
 class Solution {
 public:
-bool found(TreeNode* root,int value)
-{
-    if(root==NULL)
-    return NULL;
-    if(root->val==value)
-    return true;
-    else if(root->val > value)
-    return found(root->left, value);
+class BSTiterator{
+    bool isnext=false;
+    stack<TreeNode*>st;
+ public:
+ BSTiterator(TreeNode* root,bool answer)
+ {
+     isnext=answer;
+     pushAll(root);
+ }
+ 
+ int next()
+ {
+    TreeNode* top_node=st.top();
+    st.pop();
+    if(isnext==true)
+    {
+        pushAll(top_node->right);
+    }
     else
-    return found(root->right,value);
-}
-bool find(TreeNode* node, TreeNode* universal_node,int k)
-{
-        bool a=false,b=false;
-            if(node==NULL)
-            return false;
-            int value_to_be_found=k- node->val;
-            
+    pushAll(top_node->left);
 
-            if(value_to_be_found > universal_node->val && value_to_be_found != node->val)
-             a=found(universal_node, value_to_be_found);
+    return top_node->val;
+ }
+ bool hasnext()
+ {
+    if(st.size()==0)
+    return false;
+    return true;
+ }
 
-             else if(value_to_be_found < universal_node->val && value_to_be_found != node->val )
-             b=found(universal_node, value_to_be_found);
-             
-             if(a==true || b==true)
-             return true;
-            
+ void pushAll(TreeNode* node)
+ {
+    if(isnext==true)
+    {
+       while(node)
+       {
+        st.push(node);
+        node=node->left;
+       }
+    }
+    else
+    {
+        while(node)
+        {
+            st.push(node);
+            node=node->right;
+        }
+    }
+ }
 
-              else
-           {
-            return find(node->left,universal_node,k) || find(node->right,universal_node,k);
-           }
-
-
-}
+};
     bool findTarget(TreeNode* root, int k) {
-        TreeNode* universal_root=root;
-        return find(root,universal_root,k);    
+        if(root==NULL)
+        return false;
+        BSTiterator l(root,true);
+        BSTiterator r(root,false);
+        int i=l.next();
+        int j=r.next();
+        while(i<j)
+        {
+            if(i+j == k)
+            return true;
+            else if(i+j < k )
+            i=l.next();
+            else
+            j=r.next();
+        }
+        return false;
+
+        
     }
 };
