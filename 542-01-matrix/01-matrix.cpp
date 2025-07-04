@@ -3,8 +3,7 @@ public:
 int x[4]={0,0,1,-1};
 int y[4]={1,-1,0,0};
 vector<vector<int>> bfs(vector<vector<int>>& mat,vector<vector<int>>& visited,int m,int n)
-{
-    
+{   
     priority_queue< pair<int, pair<int,int>>, vector<pair<int, pair<int,int>>> ,      greater< pair<int, pair<int,int>> >>q;
     vector<vector<int>>cost(m,vector<int>(n,0));
     for(int i=0;i<m;i++ )
