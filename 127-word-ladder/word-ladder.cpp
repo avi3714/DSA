@@ -3,10 +3,13 @@ public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         if(beginWord==endWord)
         return 0;
+        set<string>st;
+        map<string,int>mpp;
+        for(int i=0;i<wordList.size();i++)
+        st.insert(wordList[i]);
         vector<int>visited(wordList.size(),0);
         queue<pair<int,string>>q;
         q.push({0,beginWord});
-        
         while(!q.empty())
         {
             pair<int,string>r=q.front();
@@ -15,34 +18,22 @@ public:
             int cost=r.first;
             if(s1==endWord)
             return cost+1;
-            for(int i=0;i<wordList.size();i++)
+            string hy=s1;
+            for(int i=0;i<s1.length();i++)
+            {           
+            for(int j=0;j<26;j++)
             {
-                string s=wordList[i];
-                if(visited[i]==1)
-                continue;
-                //now check wheteher string s and s1 have one difference or not.
-                if(s.length()!=s1.length()||s1==s)
-                continue;
-                int count=0;int flag=0;
-                for(int k=0;k<s.length();k++)
+                s1[i]='a'+j;
+                if( st.find(s1)!=st.end())
                 {
-                    if(s[k]==s1[k])
-                    continue;
-                    else if(count==0)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        count++;break;
-                    }
-                }
-                if(count==1)
-                {
-                    q.push({cost+1,s});
-                    visited[i]=1;
+                     q.push({cost+1,s1});
+                     auto it=st.find(s1);
+                     st.erase(it);
                 }
             }
+            s1=hy;
+            }
+           
         }
         return 0;
     }
