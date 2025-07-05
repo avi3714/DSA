@@ -47,9 +47,6 @@ public:
         disjoint_set computer(n);
         for(int i=0;i<connections.size();i++)
         {
-            if(computer.findparent(connections[i][0]) ==  computer.findparent(connections[i][1]))
-            countextra++;
-            else
             computer.union_by_rank(connections[i][0],connections[i][1]);
         }
         int count=0;
@@ -58,10 +55,9 @@ public:
             if(computer.findparent(i)==i)
             count++;
         }
-       if(countextra>=count-1)
+       
        return count-1;
-       else
-       return -1;
+       
 
         
     }
