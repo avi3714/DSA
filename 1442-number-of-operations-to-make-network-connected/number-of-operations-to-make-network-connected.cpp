@@ -1,37 +1,69 @@
+class disjoint_set{
+vector<int>rank,parent;
+public:
+ disjoint_set(int n)
+ {
+    rank.resize(n+1,0);
+    parent.resize(n+1);
+    for(int i=0;i<=n;i++)
+    {
+        parent[i]=i;
+    }
+ }
+ int findparent(int u)
+ {
+    if(parent[u]==u)
+    return u;
+    else
+    return parent[u]=findparent(parent[u]);
+ }
+  void union_by_rank(int u,int v)
+  {
+    int ult_u=findparent(u);
+    int ult_v=findparent(v);
+    if(ult_u == ult_v)
+    return;
+    if(rank[ult_u] < rank[ult_v])
+    {
+        parent[ult_u]=ult_v;
+    }
+    else if(rank[ult_u] > rank[ult_v])
+    {
+        parent[ult_v]=ult_u;
+    }
+    else
+    {
+        rank[ult_v]++;
+        parent[ult_u]=ult_v;
+    }
+  }
+};
 class Solution {
 public:
-void dfs(int index,vector<int>&visited,vector<vector<int>>&adj)
-{
-    visited[index]=1;
-    for(int i=0;i<adj[index].size();i++)
-    {
-        if(visited[adj[index][i]] == 0)
-        dfs(adj[index][i],visited,adj);
-    }
-}
     int makeConnected(int n, vector<vector<int>>& connections) {
         if(n>connections.size()+1)
         return -1;
-        vector<int>visited(n,0);
-        vector<vector<int>>adj(n);
+        int countextra=0;
+        disjoint_set computer(n);
         for(int i=0;i<connections.size();i++)
         {
-            adj[connections[i][0]].push_back(connections[i][1]);
-            adj[connections[i][1]].push_back(connections[i][0]);
+            if(computer.findparent(connections[i][0]) ==  computer.findparent(connections[i][1]))
+            countextra++;
+            else
+            computer.union_by_rank(connections[i][0],connections[i][1]);
         }
         int count=0;
         for(int i=0;i<n;i++)
         {
-            if(visited[i]==0)
-            {
-                count++;
-                dfs(i,visited,adj);
-            }
+            if(computer.findparent(i)==i)
+            count++;
         }
-        
-        return count-1;
+       if(countextra>=count-1)
+       return count-1;
+       else
+       return -1;
 
         
     }
 };
-//so basically i have to find number of connected compoents.??
+//now  i will do using union by rank.
