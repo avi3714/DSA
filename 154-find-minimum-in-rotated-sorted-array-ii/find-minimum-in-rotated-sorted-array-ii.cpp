@@ -14,16 +14,22 @@ public:
             if(nums[mid] < nums[(mid+1)%n] && nums[mid] < nums[(mid-1+n)%n])
             return nums[mid];
             else if(nums[mid] < nums[high])
-            high=mid;
+            {
+             mini=min(mini,nums[mid]);
+            high=mid-1;
+            }
             else if(nums[mid] > nums[low])
             {
              mini=min(mini,nums[low]);
             low=mid+1;
             }
             else
+            {
+            mini=min(nums[low],mini);
             low++;
+            }
         }
-        return min(mini, nums[high]);
+        return mini;
         
     }
 };
